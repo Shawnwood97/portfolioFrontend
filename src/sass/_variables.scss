@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+// Background color variables
+
+$primary: #202020;
+$secondary: #FFFFEE;
+
+// Accent color variabls
+
+$priAcc: #DE6449;
+$secAcc: #63ACD8;
+$altAcc: #303030;
+$smAcc: #ADADAD;
+
+// Fonts
+
+$mainFont: 'Roboto', sans-serif;
+$secFont: 'Roboto', sans-serif;
+
+// Button Mixins
+
+@mixin mainBtn {
+  
+}
