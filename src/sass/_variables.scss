@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');;
 
 // Background color variables
 
@@ -11,6 +11,7 @@ $priAcc: #DE6449;
 $secAcc: #63ACD8;
 $altAcc: #303030;
 $smAcc: #ADADAD;
+$errorTx: #CD4848;
 
 // Fonts
 
@@ -20,5 +21,20 @@ $secFont: 'Roboto', sans-serif;
 // Button Mixins
 
 @mixin mainBtn {
-  
+  background: $priAcc;
+  border: 0;
+  color: $secondary;
+  font-weight: bold;
+  font-size: 0.95rem;
+  border-radius: 3px;
+  margin: auto;
+  padding: 10px 20px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
+
+  &:hover {
+    opacity: 94%;
+    cursor: pointer;
+    box-shadow: none;
+  }
 }
