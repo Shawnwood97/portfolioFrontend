@@ -21,7 +21,7 @@
     </header>
     <main>
       <section id="splash">
-        <div id="welcome">
+        <div id="welcome" class="wrapper">
           <span class="brackets">{</span>
           <div class="splashText">
             <p>Hello, I'm <span class="blueAcc">Shawn.</span></p>
@@ -61,38 +61,51 @@
         </div>
       </section>
       <section id="about">
-        <h2 class="sectionHeading">About Me</h2>
-        <p>
-          I am a Full Stack Developer with a
-          <span class="blueAcc">Passion</span> for creating an awesome
-          <span class="orangeAcc">User Experience</span> through great visual
-          design and functional back end systems.
-        </p>
+        <div class="wrapper">
+          <h2 class="sectionHeading">About Me</h2>
+          <p>
+            I am a Full Stack Developer with a
+            <span class="blueAcc">Passion</span> for creating an awesome
+            <span class="orangeAcc">User Experience</span> through great visual
+            design and functional back end systems.
+          </p>
+        </div>
       </section>
       <section id="projects">
-        <h2 class="sectionHeading">Projects</h2>
-        <div v-for="project in projects" :key="project.id">
-          <div class="projectCard">
-            <img
-              class="projectImage"
-              :src="`${project.image}`"
-              :alt="`Screenshot of ${project.link}`"
-            />
-            <div class="projectInfoContainer">
-              <div class="projectTitle">
-                <a :href="`${project.link}`" target="_blank"
-                  ><h4>{{ project.name }}</h4></a
-                >
-                <a
-                  class="codeLink"
-                  :href="`${project.code_link}`"
-                  target="_blank"
-                  >View Code</a
-                >
+        <div class="wrapper">
+          <div class="sectionHeading">Projects</div>
+          <div id="projectsContainer">
+            <div v-for="project in limitedProjects" :key="project.id">
+              <div class="projectCard">
+                <img
+                  class="projectImage"
+                  :src="`${project.image}`"
+                  :alt="`Screenshot of ${project.link}`"
+                />
+                <div class="projectInfoContainer">
+                  <div class="projectTitle">
+                    <a :href="`${project.link}`" target="_blank"
+                      ><h4>{{ project.name }}</h4></a
+                    >
+                    <a
+                      class="codeLink"
+                      :href="`${project.code_link}`"
+                      target="_blank"
+                      >View Code</a
+                    >
+                  </div>
+                  <div class="projectTech">{{ project.tech }}</div>
+                  <div class="projectDesc">{{ project.description }}</div>
+                </div>
               </div>
-              <div class="projectTech">{{ project.tech }}</div>
-              <div class="projectDesc">{{ project.description }}</div>
             </div>
+          </div>
+          <!-- //todo make this solution nicer later -->
+          <div v-if="showProj === 3" @click="showProj = null" class="mainBtn">
+            Show More
+          </div>
+          <div v-if="showProj === null" @click="showProj = 3" class="mainBtn">
+            Show Less
           </div>
         </div>
       </section>
@@ -267,38 +280,41 @@
           <span>hi@shawnwood.me</span>
         </div>
       </section>
-      <section id="quote">
-        <h2 class="sectionHeading">Get A Quote</h2>
 
-        <FormulateForm id="contactForm">
-          <p>
-            Send me a brief description of your perfect app, and I will get back
-            to you within 24 hours.
-          </p>
-          <FormulateInput
-            id="nameInput"
-            placeholder="Name"
-            type="text"
-            name="name"
-            validation="required"
-          />
-          <FormulateInput
-            id="emailInput"
-            placeholder="Email Address"
-            type="email"
-            name="email"
-            validation="required|email"
-          />
-          <FormulateInput
-            id="messageInput"
-            placeholder="Message"
-            type="textarea"
-            name="message"
-            validation="required"
-          />
-          <div id="formMessage" v-if="showMessage">{{ message }}</div>
-          <button @click="submitMessage" class="mainBtn">Send</button>
-        </FormulateForm>
+      <section id="quote">
+        <div class="wrapper">
+          <h2 class="sectionHeading">Get A Quote</h2>
+
+          <FormulateForm id="contactForm">
+            <p>
+              Send me a brief description of your perfect app, and I will get
+              back to you within 24 hours.
+            </p>
+            <FormulateInput
+              id="nameInput"
+              placeholder="Name"
+              type="text"
+              name="name"
+              validation="required"
+            />
+            <FormulateInput
+              id="emailInput"
+              placeholder="Email Address"
+              type="email"
+              name="email"
+              validation="required|email"
+            />
+            <FormulateInput
+              id="messageInput"
+              placeholder="Message"
+              type="textarea"
+              name="message"
+              validation="required"
+            />
+            <div id="formMessage" v-if="showMessage">{{ message }}</div>
+            <button @click="submitMessage" class="mainBtn">Send</button>
+          </FormulateForm>
+        </div>
       </section>
     </main>
     <footer id="footer">
@@ -331,14 +347,23 @@ export default {
 
   data() {
     return {
-      projects: [],
+      allProjects: [],
       frontend: [],
       backend: [],
       tools: [],
+      showProj: 3,
 
       showMessage: false,
       message: "",
     };
+  },
+
+  computed: {
+    limitedProjects() {
+      return this.showProj
+        ? this.allProjects.slice(0, this.showProj)
+        : this.allProjects;
+    },
   },
 
   created() {
@@ -348,7 +373,8 @@ export default {
         method: "GET",
       })
       .then((res) => {
-        this.projects = res.data.reverse();
+        console.log(res.data);
+        this.allProjects = res.data.reverse();
       })
       .catch((err) => {
         console.log(err.response);
@@ -440,6 +466,11 @@ export default {
     fill: $secondary;
   }
 }
+.wrapper {
+  max-width: 1100px;
+  display: grid;
+  justify-self: center;
+}
 .blueAcc {
   font-weight: bold;
   color: $secAcc;
@@ -512,8 +543,8 @@ export default {
 
 .sectionHeading {
   border-bottom: 3px solid $secAcc;
-  place-self: center;
   padding-bottom: 12px;
+  place-self: center;
   font-size: 1.5rem;
   letter-spacing: 0.1rem;
   margin-top: 14px;
@@ -535,6 +566,7 @@ export default {
 #projects {
   display: grid;
   background: $primary;
+  padding-bottom: 30px;
 
   .sectionHeading {
     color: $secondary;
@@ -542,57 +574,65 @@ export default {
     margin-bottom: 18px;
   }
 
-  .projectCard {
-    padding: 0 20px;
-    margin-bottom: 40px;
+  #projectsContainer {
     display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
 
-    .projectImage {
-      max-width: 100%;
-    }
-    .projectInfoContainer {
-      padding: 4px 6px;
-      background: $altAcc;
-      border-radius: 0 0 4px 4px;
-      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    .projectCard {
+      margin-bottom: 40px;
       display: grid;
-      gap: 4px;
-      .projectTitle {
+
+      .projectImage {
+        max-width: 100%;
+        display: block;
+      }
+      .projectInfoContainer {
+        padding: 4px 6px;
+        background: $altAcc;
+        border-radius: 0 0 4px 4px;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
         display: grid;
-        grid-auto-flow: column;
-        grid-auto-columns: max-content 1fr;
+        gap: 4px;
+        .projectTitle {
+          display: grid;
+          grid-auto-flow: column;
+          grid-auto-columns: max-content 1fr;
 
-        a {
-          text-decoration: none;
+          a {
+            text-decoration: none;
+          }
+
+          h4 {
+            color: $priAcc;
+          }
+
+          .codeLink {
+            color: $secondary;
+            font-size: 0.8rem;
+            place-self: center end;
+            margin-left: 10px;
+          }
         }
 
-        h4 {
-          color: $priAcc;
-        }
-
-        .codeLink {
-          color: $secondary;
+        .projectTech {
+          color: $secAcc;
           font-size: 0.8rem;
-          place-self: center end;
-          margin-left: 10px;
         }
-      }
-
-      .projectTech {
-        color: $secAcc;
-        font-size: 0.8rem;
-      }
-      .projectDesc {
-        color: $secondary;
-        font-size: 0.9rem;
+        .projectDesc {
+          color: $secondary;
+          font-size: 0.9rem;
+        }
       }
     }
   }
 }
 #skills {
   display: grid;
+  margin: auto;
   color: $altAcc;
   gap: 20px;
+  max-width: 1100px;
 
   .skillsHeading {
     border-bottom: 2px solid $priAcc;
@@ -629,6 +669,7 @@ export default {
 #contact {
   display: grid;
   background: $primary;
+  place-items: center;
 
   .sectionHeading {
     color: $secondary;
@@ -639,6 +680,8 @@ export default {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     place-items: end center;
+    max-width: 1100px;
+    width: 100%;
     row-gap: 26px;
   }
 
@@ -683,7 +726,7 @@ li.formulate-input-error {
 #contactForm {
   width: 100%;
   display: grid;
-  padding: 0 20px;
+  padding: 20px 20px 0 20px;
   gap: 20px;
 }
 #nameInput,
