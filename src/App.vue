@@ -400,7 +400,7 @@ export default {
         method: "GET",
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         this.allProjects = res.data.reverse();
       })
       .catch((err) => {
