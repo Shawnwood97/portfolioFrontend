@@ -30,14 +30,23 @@
           </div>
           <span class="brackets">}</span>
         </div>
-        <a href="#quote" class="mainBtn">Get A Quote</a>
+        <a
+          href="#quote"
+          class="mainBtn"
+          aria-label="Click this button to get a quote"
+          >Get A Quote</a
+        >
         <div id="socialsText">
           <hr class="socialsLineOne" />
           <div>Socials</div>
           <hr class="socialsLineTwo" />
         </div>
         <div id="socialsLogoContainer">
-          <a href="https://twitter.com/GiveMeArrays" target="_blank">
+          <a
+            href="https://twitter.com/GiveMeArrays"
+            target="_blank"
+            aria-label="Click this button to goto my Twitter"
+          >
             <img
               class="socialImage"
               src="../src/assets/twitter.svg"
@@ -46,13 +55,18 @@
           <a
             href="https://www.linkedin.com/in/shawn-wood-8a037374/"
             target="_blank"
+            aria-label="Click this button to goto my LinkedIn"
           >
             <img
               class="socialImage"
               src="../src/assets/linkedin.svg"
               alt="LinkedIn Logo"
           /></a>
-          <a href="https://www.instagram.com/givemearrays/" target="_blank">
+          <a
+            href="https://www.instagram.com/givemearrays/"
+            target="_blank"
+            aria-label="Click this button to goto my Instagram"
+          >
             <img
               class="socialImage"
               src="../src/assets/instagram.svg"
@@ -85,7 +99,7 @@
                 <div class="projectInfoContainer">
                   <div class="projectTitle">
                     <a :href="`${project.link}`" target="_blank"
-                      ><h4>{{ project.name }}</h4></a
+                      ><div class="projectLink">{{ project.name }}</div></a
                     >
                     <a
                       class="codeLink"
@@ -158,6 +172,7 @@
             <a
               href="https://www.linkedin.com/in/shawn-wood-8a037374/"
               target="_blank"
+              aria-label="Click this button to goto my LinkedIn"
             >
               <svg
                 class="contactSocialImage"
@@ -179,7 +194,11 @@
             <div class="contactText">LinkedIn</div>
           </div>
           <div class="contactSecGrid">
-            <a href="https://twitter.com/GiveMeArrays" target="_blank">
+            <a
+              href="https://twitter.com/GiveMeArrays"
+              target="_blank"
+              aria-label="Click this button to goto my Twitter"
+            >
               <svg
                 class="contactSocialImage"
                 width="49px"
@@ -200,7 +219,11 @@
             <div class="contactText">Twitter</div>
           </div>
           <div class="contactSecGrid">
-            <a href="https://www.instagram.com/givemearrays/" target="_blank">
+            <a
+              href="https://www.instagram.com/givemearrays/"
+              target="_blank"
+              aria-label="Click this button to goto my Instagram"
+            >
               <svg
                 class="contactSocialImage"
                 width="40px"
@@ -221,7 +244,11 @@
             <div class="contactText">Instagram</div>
           </div>
           <div class="contactSecGrid">
-            <a href="#" target="_blank">
+            <a
+              href="#"
+              target="_blank"
+              aria-label="Click this button to goto my Resume"
+            >
               <svg
                 height="40px"
                 width="40px"
@@ -276,7 +303,7 @@
           </div>
         </div>
         <div class="contactEmail">
-          <h4>Or email me at:</h4>
+          <div class="contactText">Or email me at:</div>
           <span>hi@shawnwood.me</span>
         </div>
       </section>
@@ -444,6 +471,16 @@ export default {
 </script>
 
 <style lang="scss">
+@media screen and (min-width: 725px) {
+  .splashText {
+    font-size: 2.5rem;
+  }
+}
+@media screen and (max-width: 725px) {
+  .splashText {
+    font-size: 5.5vw;
+  }
+}
 * {
   margin: 0;
   padding: 0;
@@ -467,6 +504,7 @@ export default {
   }
 }
 .wrapper {
+  width: 100%;
   max-width: 1100px;
   display: grid;
   justify-self: center;
@@ -485,7 +523,7 @@ export default {
 #splash {
   background: $primary;
   display: grid;
-  gap: 20px;
+  padding-top: 15px;
 
   #welcome {
     font-size: 1.375rem;
@@ -493,8 +531,9 @@ export default {
     display: grid;
     grid-template-columns: max-content 1fr max-content;
     place-items: center;
-    padding: 20px;
-    padding-bottom: 0;
+    margin-bottom: 15px;
+    min-height: 20vh;
+    gap: 20px;
 
     .brackets {
       font-size: 5.9rem;
@@ -513,6 +552,7 @@ export default {
     color: $smAcc;
     grid-template-columns: 1fr max-content 1fr;
     font-size: 0.95rem;
+    margin: 20px 0;
 
     .socialsLineOne {
       width: 22px;
@@ -555,6 +595,9 @@ export default {
   color: $altAcc;
   margin-bottom: 18px;
 
+  .sectionHeading {
+    place-self: start center;
+  }
   p {
     padding: 0 16px;
     padding-top: 12px;
@@ -578,9 +621,11 @@ export default {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
+    width: 100%;
+    padding: 0 20px;
+    margin-bottom: 40px;
 
     .projectCard {
-      margin-bottom: 40px;
       display: grid;
 
       .projectImage {
@@ -603,7 +648,9 @@ export default {
             text-decoration: none;
           }
 
-          h4 {
+          .projectLink {
+            font-weight: bold;
+            font-size: 1.1rem;
             color: $priAcc;
           }
 
@@ -701,7 +748,8 @@ export default {
     display: grid;
     gap: 16px;
     place-items: center;
-    h4 {
+    .contactText {
+      font-weight: bold;
       color: $secondary;
       font-size: 0.85rem;
     }
